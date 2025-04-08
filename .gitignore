@@ -1,0 +1,42 @@
+# Django 프로젝트 관련 파일
+*.pyc
+__pycache__/
+db.sqlite3
+media/
+static/
+.env
+.venv/
+venv/
+env/
+local_settings.py
+local_settings.ini
+
+# Django 관리 명령어 관련 파일
+*.log
+*.pot
+
+# OS 관련 파일
+.DS_Store
+Thumbs.db
+*.swp
+
+# IDE 관련 파일
+.idea/
+.project
+.pydevproject
+*.sublime-project
+*.sublime-workspace
+
+# Editor/Plugin 관련 파일
+*.bak
+*.orig
+*~
+~$*
+
+# 배포 관련 파일
+/staticfiles/
+/mediafiles/
+
+# 추가적으로 무시할 파일 패턴 (필요에 따라 추가)
+# my_secret_key.txt
+# *.csv
