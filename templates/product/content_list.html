@@ -1,43 +1,33 @@
-<!DOCTYPE html>
-{% load static %}
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Small Business - Start Bootstrap Template</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        {# <#}
-        <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
-    </head>
-    <body class="d-flex flex-column min-vh-100"> {# Sticky footer를 위한 클래스 추가, 좋습니다! #}
-        {% include "navbar.html" %}
-        {% block content %}
-        <div class="container px-4 px-lg-5">
-            <!-- Heading Row-->
-            <div class="row gx-4 gx-lg-5 align-items-center my-5">
-                <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
-                <div class="col-lg-5">
-                    <h1 class="font-weight-light"><a href="/product/{{ content.id }}/">{{ content.title }}</a></h1>
-                    <p>{{ content.content}}</p>
-                    <a class="btn btn-primary" href="#!">Call to Action!</a>
-                </div>
+{% extends 'base.html' %} {# base.html을 상속받습니다. #}
+{% load static %} {# 필요하다면 static 로드를 명시합니다. base.html에 이미 있다면 생략 가능합니다. #}
+{% block content %} {# base.html의 {% block content %} 영역을 이 내용으로 채웁니다. #}
+<div class="container px-4 px-lg-5">
+    {% if content_list %}
+        {% for content in content_list %}
+        <div class="row gx-4 gx-lg-5 align-items-center my-5">
+            <div class="col-lg-7">
+                {# 상품 이미지가 있다면 content.image_url 등으로 표시할 수 있습니다. #}
+                {% if content.image %}
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="{{ content.image.url }}" alt="{{ content.title }}" />
+                {% else %}
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." />
+                {% endif %}
+            </div>
+            <div class="col-lg-5">
+                <h1 class="font-weight-light"><a href="/product/{{ content.id }}/">{{ content.title }}</a></h1>
+                {# content 필드의 내용을 200자까지만 보여주고, 나머지는 ... 처리 (truncatewords 필터 사용) #}
+                <p>{{ content.content | truncatewords:30 }}</p> {# 30 단어까지만 표시 #}
+                {# 또는 <p>{{ content.content | slice:":200" }}...</p> #}
+                <a class="btn btn-primary" href="/product/{{ content.id }}/">자세히 보기</a> {# 상세 페이지 링크 #}
             </div>
         </div>
-        <div class="container px-4 px-lg-5">
-            <!-- Heading Row-->
-            <div class="row gx-4 gx-lg-5 align-items-center my-5">
-                <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="https://dummyimage.com/900x400/dee2e6/6c757d.jpg" alt="..." /></div>
-                <div class="col-lg-5">
-                    <h1 class="font-weight-light"><a href="/product/{{ content.id }}/">{{ content.title }}</a></h1>
-                    <p>{{ content.content}}</p>
-                    <a class="btn btn-primary" href="#!">Call to Action!</a>
-                </div>
-            </div>
+        {% endfor %}
+    {% else %}
+        <div class="text-center my-5">
+            <p>표시할 상품 목록이 없습니다.</p>
         </div>
-        {% endblock %}
-        {% include "footer.html" %}
-    </body>
-</html>
+    {% endif %}
+    {# 페이지네이션이 필요하다면 여기에 추가할 수 있습니다. #}
+    {# 예: {% include 'pagination.html' %} #}
+</div>
+{% endblock %} {# content 블록 끝 #}
